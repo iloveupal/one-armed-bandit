@@ -37,7 +37,7 @@ export const findDistributionOfSlots = (slots) => {
             }
         }
 
-        const currentAccumulator = arr[curr];
+        const currentAccumulator = acc[curr];
 
         acc[curr] = {
             count: currentAccumulator.count + 1,
@@ -62,13 +62,15 @@ export const findDistributionOfSlots = (slots) => {
  */
 export const calculatePoints = (slots, rules) => {
     const slotsDist = findDistributionOfSlots(slots);
+
+    debugger;
     // for-of seems a better approach because it can quit whenever we want it to 
     // (Array.prototype.forEach can't) and
     // isn't obliged to return anything Array.prototype.find or Array.prototype.some.
     // so semantically it seems a better fit in this case.
-    for ( rule of rules ) {
-        const { success, amount } = rule(slotsDist);
-        if ( success ) {
+    for ( let rule of rules ) {
+        const { match, amount } = rule(slotsDist);
+        if ( match ) {
             return amount;
         }
     }
@@ -79,7 +81,7 @@ export const calculatePoints = (slots, rules) => {
  * @param {number} count Slots count
  * @param {Array<string>} possibleValues Possible values for the slot
  */
-export const selectRandomSlotValues = (count, possibleValues) => (new Array(count)).map(() => chance.pickone(possibleValues));
+export const selectRandomSlotValues = (count, possibleValues) => (new Array(count)).fill(0).map(() => chance.pickone(possibleValues));
 
 /**
  * Launches the intervals that will update the slots at independent frequencies.
@@ -87,7 +89,7 @@ export const selectRandomSlotValues = (count, possibleValues) => (new Array(coun
  * @param {Function} updateFn Function to call when it's time for the slot to update. Will be called with the index param.
  */
 export const initializeSpinnerIntervals = (count, updateFn) => {
-    return (new Array(count)).map((_, index) => setInterval(() => updateFn(index), chance.integer({ min: 50, max: 100, })))
+    return (new Array(count)).fill(0).map((_, index) => setInterval(() => updateFn(index), chance.integer({ min: 50, max: 100, })))
 };
 
 /**

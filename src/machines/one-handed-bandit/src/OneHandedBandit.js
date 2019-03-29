@@ -1,11 +1,19 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import {
     SPINNING_TIME,
     STAND_BY_TIME,
     WINNING_RULES,
+    POSSIBLE_SLOTS
 } from './OneHandedBanditConstants';
+
+import {
+    calculatePoints,
+} from './OneHandedBanditUtils';
+
+const possible_keys = Object.keys(POSSIBLE_SLOTS);
+
 
 import OneHandedBanditControls from './OneHandedBanditControls';
 import OneHandedBanditSpinner from './OneHandedBanditSpinner';
@@ -50,6 +58,7 @@ export default class OneHandedBandit extends PureComponent {
 
     handleRoundFinished = (slots) => {
         const points = calculatePoints(slots, WINNING_RULES);
+        debugger;
         if ( points ) {
             this.props.onWin(points);
         }
@@ -57,17 +66,19 @@ export default class OneHandedBandit extends PureComponent {
     
     render () {
         return (
-            <fragment>
+            <Fragment>
                 <OneHandedBanditSpinner
                     isSpinning={this.state.isSpinning}
                     onRoundFinished={this.handleRoundFinished}
+                    slotsCount={3}
+                    possibleSlotValues={possible_keys}
                 />
                 <OneHandedBanditControls
                     isSpinning={this.state.isSpinning}
                     onStartButtonClicked={this.leaveStandByState}
                     onFinishButtonClicked={this.leaveSpinningState}
                 />
-            </fragment>
+            </Fragment>
         )
     }
 }

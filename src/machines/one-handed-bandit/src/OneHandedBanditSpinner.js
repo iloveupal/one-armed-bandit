@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withProps } from 'recompose';
 
-import SlotMachine from 'Components/SlotMachine';
-import SlotComponent from 'Components/SlotComponent';
+import SlotMachine from './components/SlotMachine';
+import SlotComponent from './components/SlotComponent';
 
 import {
     selectRandomSlotValues,
@@ -14,11 +15,11 @@ import {
 
 export class OneHandedBanditSpinnerPure extends PureComponent {
     static propTypes = {
-        SlotComponent: PropTypes.element.isRequired,
+        SlotComponent: PropTypes.func.isRequired,
         isSpinning: PropTypes.bool.isRequired,
         slotsCount: PropTypes.number.isRequired,
         possibleSlotValues: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-        onFinishedSpinning: PropTypes.func.isRequired,
+        onRoundFinished: PropTypes.func.isRequired,
     }
 
     spinnerIntervals = [];
@@ -31,9 +32,19 @@ export class OneHandedBanditSpinnerPure extends PureComponent {
 
         this.slotGraph = generateSlotGraph(props.possibleSlotValues);
 
-        this.setState({
+        this.state = {
             slots: selectRandomSlotValues(props.slotsCount, props.possibleSlotValues),
-        });
+        };
+    }
+
+    componentDidUpdate(prevProps) {
+        if ( prevProps.isSpinning === false && this.props.isSpinning === true ) {
+            this.startSpinning();
+        }
+
+        if ( prevProps.isSpinning === true && this.props.isSpinning === false ) {
+            this.stopSpinning();
+        }
     }
 
     startSpinning = () => {
@@ -44,7 +55,7 @@ export class OneHandedBanditSpinnerPure extends PureComponent {
         this.spinnerIntervals.forEach((timerId) => clearInterval(timerId));
         this.spinnerIntervals = [];
 
-        this.props.onFinishedSpinning(this.state.slots);
+        this.props.onRoundFinished(this.state.slots);
     }
 
     updateSlot = (slotIndex) => {
@@ -73,3 +84,5 @@ export class OneHandedBanditSpinnerPure extends PureComponent {
     }
 }
 
+
+export default withProps({ SlotComponent })(OneHandedBanditSpinnerPure);

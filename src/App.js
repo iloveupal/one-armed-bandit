@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export class App extends PureComponent {
     static propTypes = {
-        Machine: PropTypes.element.isRequired,
+        Machine: PropTypes.func.isRequired,
     }
     
     state = {

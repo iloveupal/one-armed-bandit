@@ -1,3 +1,8 @@
+import bananaImage from './assets/images/banana.png';
+import monkeyImage from './assets/images/monkey.png';
+import orangeImage from './assets/images/orange.png';
+import strawberryImage from './assets/images/strawberry.png';
+
 export const SPINNING_TIME = 10 * 1000;
 export const STAND_BY_TIME = 5 * 1000;
 
@@ -25,3 +30,10 @@ export const WINNING_RULES = [
     // default case, we get 0
     () => ({ match: true, amount: 0 }),
 ];
+
+export const POSSIBLE_SLOTS = {
+    orange: orangeImage,
+    strawberry: strawberryImage,
+    monkey: monkeyImage,
+    banana: bananaImage,
+};
