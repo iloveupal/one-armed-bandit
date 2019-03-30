@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { withProps } from 'recompose';
 
 import SlotMachine from './components/SlotMachine';
 import SlotComponent from './components/SlotComponent';
@@ -13,9 +12,8 @@ import {
 } from './OneHandedBanditUtils';
 
 
-export class OneHandedBanditSpinnerPure extends PureComponent {
+export default class OneHandedBanditSpinner extends PureComponent {
     static propTypes = {
-        SlotComponent: PropTypes.func.isRequired,
         isSpinning: PropTypes.bool.isRequired,
         slotsCount: PropTypes.number.isRequired,
         possibleSlotValues: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
@@ -68,14 +66,14 @@ export class OneHandedBanditSpinnerPure extends PureComponent {
                     slotIndexToUpdate: slotIndex,
                 }),
             };
-        })
+        });
     }
 
     render () {
         return (
             <SlotMachine>
                 { this.state.slots.map((slot, index) => (
-                    <this.props.SlotComponent
+                    <SlotComponent
                         slot={slot}
                         slotImagesMap={this.props.slotImagesMap}
                         key={index}
@@ -85,6 +83,3 @@ export class OneHandedBanditSpinnerPure extends PureComponent {
         );
     }
 }
-
-
-export default withProps({ SlotComponent })(OneHandedBanditSpinnerPure);
