@@ -3,23 +3,24 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 
-const ButtonRowDiv = styled.div`
+const RowDiv = styled.div`
     display: flex;
     flex-flow: row no-wrap;
-    justify-content: flex-start;
+    justify-content: center;
+    padding: 20px 0;
 `;
 
 
-export default class ButtonRow extends PureComponent {
+export default class Row extends PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,
     };
 
     render () {
         return (
-            <ButtonRowDiv>
+            <RowDiv>
                 { this.props.children }
-            </ButtonRowDiv>
+            </RowDiv>
         );
     }
 }

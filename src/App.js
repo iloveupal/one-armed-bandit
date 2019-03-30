@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ScoreBoard from './ScoreBoard';
 
 
 export class App extends PureComponent {
@@ -22,6 +23,9 @@ export class App extends PureComponent {
             <div>
                 <this.props.Machine
                     onWin={this._addMoney} 
+                />
+                <ScoreBoard
+                    points={this.state.amountWon}
                 />
             </div>
         );

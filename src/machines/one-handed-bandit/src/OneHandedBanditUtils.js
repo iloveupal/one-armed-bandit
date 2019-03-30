@@ -62,8 +62,6 @@ export const findDistributionOfSlots = (slots) => {
  */
 export const calculatePoints = (slots, rules) => {
     const slotsDist = findDistributionOfSlots(slots);
-
-    debugger;
     // for-of seems a better approach because it can quit whenever we want it to 
     // (Array.prototype.forEach can't) and
     // isn't obliged to return anything Array.prototype.find or Array.prototype.some.

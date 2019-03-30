@@ -2,8 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { POSSIBLE_SLOTS } from '../OneHandedBanditConstants';
-
 
 const SlotImage = styled.img`
     width: 100px;
@@ -12,12 +10,13 @@ const SlotImage = styled.img`
 
 export default class SlotComponent extends PureComponent {
     static propTypes = {
-        slot: PropTypes.oneOf(Object.keys(POSSIBLE_SLOTS)).isRequired,
+        slot: PropTypes.string.isRequired,
+        slotImagesMap: PropTypes.object.isRequired,
     }
 
     render () {
         return (
-            <SlotImage src={POSSIBLE_SLOTS[this.props.slot]} />
+            <SlotImage src={this.props.slotImagesMap[this.props.slot]} />
         );
     }
 }

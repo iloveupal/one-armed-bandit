@@ -31,9 +31,11 @@ export const WINNING_RULES = [
     () => ({ match: true, amount: 0 }),
 ];
 
-export const POSSIBLE_SLOTS = {
+export const SLOTS = {
     orange: orangeImage,
     strawberry: strawberryImage,
     monkey: monkeyImage,
     banana: bananaImage,
 };
+
+export const SLOTS_KEYS_ARRAY = Object.keys(SLOTS);

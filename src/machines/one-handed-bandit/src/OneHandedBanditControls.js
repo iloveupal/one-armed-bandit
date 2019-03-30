@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from 'Components/Button';
-import ButtonRow from 'Components/ButtonRow';
+import Row from 'Components/Row';
 
 
 export default class OneHandedBanditControls extends PureComponent {
@@ -14,7 +14,7 @@ export default class OneHandedBanditControls extends PureComponent {
 
     render () {
         return (
-            <ButtonRow>
+            <Row>
                 <Button
                     title="Start"
                     isDisabled={this.props.isSpinning}
@@ -26,7 +26,7 @@ export default class OneHandedBanditControls extends PureComponent {
                     secondary
                     onClick={this.props.onFinishButtonClicked}
                 />
-            </ButtonRow>
+            </Row>
         );
     }
 }

@@ -19,6 +19,7 @@ export class OneHandedBanditSpinnerPure extends PureComponent {
         isSpinning: PropTypes.bool.isRequired,
         slotsCount: PropTypes.number.isRequired,
         possibleSlotValues: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+        slotImagesMap: PropTypes.object.isRequired,
         onRoundFinished: PropTypes.func.isRequired,
     }
 
@@ -76,6 +77,7 @@ export class OneHandedBanditSpinnerPure extends PureComponent {
                 { this.state.slots.map((slot, index) => (
                     <this.props.SlotComponent
                         slot={slot}
+                        slotImagesMap={this.props.slotImagesMap}
                         key={index}
                     />
                 )) }

@@ -10,6 +10,15 @@ const ButtonContainer = styled.div`
     background-color: ${props => (props.secondary) ? '#fff' : '#2d3436'};
     color: ${props => (props.secondary) ? '#2d3436' : '#fff'};
     opacity: ${props => (props.isDisabled) ? 0.5 : 1};
+    display: flex;
+    flex-flow: row no-wrap;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #2d3436;
+    margin: 0 15px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
 `;
 
 

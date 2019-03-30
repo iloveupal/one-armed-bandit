@@ -5,14 +5,14 @@ import {
     SPINNING_TIME,
     STAND_BY_TIME,
     WINNING_RULES,
-    POSSIBLE_SLOTS
+    SLOTS_KEYS_ARRAY,
+    SLOTS_COUNT,
+    SLOTS,
 } from './OneHandedBanditConstants';
 
 import {
     calculatePoints,
 } from './OneHandedBanditUtils';
-
-const possible_keys = Object.keys(POSSIBLE_SLOTS);
 
 
 import OneHandedBanditControls from './OneHandedBanditControls';
@@ -30,6 +30,10 @@ export default class OneHandedBandit extends PureComponent {
 
     state = {
         isSpinning: false,
+    }
+
+    componentDidMount () {
+        this.enterStandByState();
     }
 
     enterStandByState = () => {
@@ -58,7 +62,6 @@ export default class OneHandedBandit extends PureComponent {
 
     handleRoundFinished = (slots) => {
         const points = calculatePoints(slots, WINNING_RULES);
-        debugger;
         if ( points ) {
             this.props.onWin(points);
         }
@@ -70,8 +73,9 @@ export default class OneHandedBandit extends PureComponent {
                 <OneHandedBanditSpinner
                     isSpinning={this.state.isSpinning}
                     onRoundFinished={this.handleRoundFinished}
-                    slotsCount={3}
-                    possibleSlotValues={possible_keys}
+                    slotsCount={SLOTS_COUNT}
+                    possibleSlotValues={SLOTS_KEYS_ARRAY}
+                    slotImagesMap={SLOTS}
                 />
                 <OneHandedBanditControls
                     isSpinning={this.state.isSpinning}

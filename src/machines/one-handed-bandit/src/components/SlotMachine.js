@@ -8,6 +8,7 @@ const SlotDiv = styled.div`
     flex-flow: row no-wrap;
     justify-content: center;
     align-items: center;
+    padding: 20px 0;
 `;
 
 export default class SlotMachine extends PureComponent {
