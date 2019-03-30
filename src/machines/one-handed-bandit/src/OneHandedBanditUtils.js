@@ -55,13 +55,12 @@ export const findDistributionOfSlots = (slots) => {
 };
 
 /**
- * Will calculate the points by the rules. The last rule should always succeed.
+ * create a calculate function with custom distributor.
  * 
- * @param {Array<string>} slots 
- * @param {Array<Function>} rules 
+ * @param {Function} findDistributionOfSlotsFn function that is used to generate the dist from the slots
  */
-export const calculatePoints = (slots, rules) => {
-    const slotsDist = findDistributionOfSlots(slots);
+export const createCalculatePointsFn = (findDistributionOfSlotsFn) => (slots, rules) => {
+    const slotsDist = findDistributionOfSlotsFn(slots);
     // for-of seems a better approach because it can quit whenever we want it to 
     // (Array.prototype.forEach can't) and
     // isn't obliged to return anything Array.prototype.find or Array.prototype.some.
@@ -69,26 +68,50 @@ export const calculatePoints = (slots, rules) => {
     for ( let rule of rules ) {
         const { match, amount } = rule(slotsDist);
         if ( match ) {
-            return amount;
+            return amount || 0;
         }
     }
-};
+}
+
+/**
+ * Will calculate the points by the rules. The last rule should always succeed.
+ * 
+ * @param {Array<string>} slots 
+ * @param {Array<Function>} rules 
+ */
+export const calculatePoints = createCalculatePointsFn(findDistributionOfSlots);
+
+
+/**
+ * A pure function that can be tested.
+ * 
+ * @param {Function} pickFn A function that picks a random element from the array.
+ */
+export const createSelectRandomSlotValuesFn = (pickFn) => (count, possibleValues) => (new Array(count)).fill(0).map(() => pickFn(possibleValues));
 
 /**
  * Selects random values for the slots from the possible ones.
  * @param {number} count Slots count
  * @param {Array<string>} possibleValues Possible values for the slot
  */
-export const selectRandomSlotValues = (count, possibleValues) => (new Array(count)).fill(0).map(() => chance.pickone(possibleValues));
+export const selectRandomSlotValues = createSelectRandomSlotValuesFn((...args) => chance.pickone(...args));
+
+/**
+ * A pure version for testing
+ * 
+ * @param {Function} getIntegerFn A function to get a random integer in the range of { min, max }
+ * @param {*} setIntervalFn A function to create an interval timer 
+ */
+export const createInitializeSpinnerIntervalsFn = (getIntegerFn, setIntervalFn) => (count, updateFn) => {
+    return (new Array(count)).fill(0).map((_, index) => setIntervalFn(() => updateFn(index), getIntegerFn({ min: 50, max: 100, })))
+};
 
 /**
  * Launches the intervals that will update the slots at independent frequencies.
  * @param {number} count Amount of independent slots to spin. I chose different speeds for each one, otherwise it makes no sense.
  * @param {Function} updateFn Function to call when it's time for the slot to update. Will be called with the index param.
  */
-export const initializeSpinnerIntervals = (count, updateFn) => {
-    return (new Array(count)).fill(0).map((_, index) => setInterval(() => updateFn(index), chance.integer({ min: 50, max: 100, })))
-};
+export const initializeSpinnerIntervals = createInitializeSpinnerIntervalsFn((...args) => chance.integer(...args), setInterval);
 
 /**
  * Will return a new array of slots given the current array, the graph and an index of the slot to update.
@@ -107,7 +130,7 @@ export const getNextSlotsState = ({
 
 /**
  * Will generate a structure that will allow a faster O(1) instead of O(n) lookup of the next element in the slot wheel.
- * @param {Array<string>} possibleSlots 
+ * @param {Array<string>} possibleSlots An *ordered* array of slots. 
  */
 export const generateSlotGraph = (possibleSlots) => {
     return possibleSlots.reduce((acc, curr, index, arr) => {

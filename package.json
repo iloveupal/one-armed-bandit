@@ -10,9 +10,11 @@
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.5.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-styled-components": "^1.10.0",
     "file-loader": "^3.0.1",
+    "jest": "^24.5.0",
     "url-loader": "^1.1.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
@@ -27,6 +29,13 @@
     "styled-components": "^4.2.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development"
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
+    "test": "jest"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^Components(.*)$": "<rootDir>/src/Components$1",
+      "^Utils(.*)$": "<rootDir>/src/Utils$1"
+    }
   }
 }
