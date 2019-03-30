@@ -1,5 +1,11 @@
 # one-armed-bandit
 
+**Deployment Path**
+
+https://one-handed-bandit.herokuapp.com/index.html
+
+**Scripts**
+
 Use these scripts to work with the application.
 
 *Install dependencies*
